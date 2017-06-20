@@ -1,3 +1,19 @@
-.board .row{
-    display:table;
+.board {
+    height:300px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
 }
+
+.board .row{
+    flex:1;
+    display: flex;
+}
+
+.board .row button{
+    display:flex;
+    flex:1;
+    font-size:4em;
+    justify-content:center;
+}
+

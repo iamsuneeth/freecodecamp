@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Board from '../board/board';
 import RadioGroup from '../radioGroup/radio-group';
+import GameType from '../models/gameType';
+import './game.css';
 
 const GAME_TYPES = {
     ONE_PLAYER : '1',
@@ -25,6 +27,8 @@ class Game extends Component {
         }
     }
 
+
+
     setGameState(player) {
         this.setState({
             winner: player,
@@ -48,10 +52,11 @@ class Game extends Component {
 
     render() {
         return (
-            <div className={'game'}>
+            <div className={'game container'}>
                 {this.state.stage === "three" && <Board isComplete={this.state.isComplete}
                     setGameState={(player) => this.setGameState(player)} type={this.state.type} user={this.state.player} />}
-                {this.state.stage === "one" && <RadioGroup name="type" values={Object.keys(GAME_TYPES)} optionChange={(event)=> this.setGameType(event)}/>}
+                {this.state.isComplete && <div className={'buttonContainer'}><button>Reset</button></div>}
+                {this.state.stage === "one" && <GameType name="type" values={Object.keys(GAME_TYPES)} optionChange={(event)=> this.setGameType(event)}/>}
                 {this.state.stage === "two" && <RadioGroup name="player" values={Object.keys(PLAYER)} optionChange={(event)=> this.setPlayerType(event)}/>}
                 
             </div>

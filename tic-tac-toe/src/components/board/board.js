@@ -7,8 +7,7 @@ export default class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            board: Array(9).fill(null),
-            disabled:false
+            board: Array(9).fill(null)
         }
         this.current = props.user
         this.next = props.user === 'x'?'o':'x'
@@ -19,33 +18,30 @@ export default class Board extends React.Component {
         this.next = current;
     }
     updateSquareValue = (index) => {
-        let board = this.state.board
-        board[index] = this.current;
-        this.swap(this.current, this.next);
-        this.setState({
-            board
-        });
-        let value  = evaluteBoard(this.state.board);
-        if(value !==0){
-           this.props.setGameState(value>0?'o':'x');
-           this.setState({
-               disabled:true
-           }) 
-        }
-        if(isComplete(this.state.board)){
+        if(this.state.board[index]===null){
+            let board = this.state.board
+            board[index] = this.current;
+            this.swap(this.current, this.next);
             this.setState({
-               disabled:true
-           });
-           this.props.setGameState('t'); 
-        }
-        if(this.props.type==='1' && this.current!==this.props.user){
-            this.updateSquareValue(findBestMove(board, this.current==='o'));
+                board
+            });
+            let value  = evaluteBoard(this.state.board);
+            if(isComplete(this.state.board) || value !==0){
+                if(value===0){
+                    this.props.setGameState('t');
+                }else{
+                     this.props.setGameState(value>0?'o':'x');
+                }
+            }
+            if(this.props.type==='1' && this.current!==this.props.user){
+                this.updateSquareValue(findBestMove(board, this.current==='o'));
+            }
         }       
     }
 
     renderSquare(pos){
         return (
-            <Square value={this.state.board[pos]} disabled={this.state.disabled} mark={this.props.isComplte?void(0):() => this.updateSquareValue(pos)} />
+            <Square value={this.state.board[pos]} mark={() => this.updateSquareValue(pos)} />
         )
     }
 

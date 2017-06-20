@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 import './square.css';
 
 const Square = (props) => (
-    <button className={'square'} disabled={props.disabled} onClick={props.mark}>{props.value}</button>
+    <Button   onClick={props.mark}><span>{props.value}</span></Button>
 );
 
 
