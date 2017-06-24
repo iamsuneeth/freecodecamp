@@ -35,6 +35,8 @@ class Game extends Component {
             winner: 'none',
             type: "1",
             player: 'x',
+            currentPlayer: '',
+            nextPlayer: '',
             stage: "one",
             stats: {
                 games:0,
@@ -55,6 +57,8 @@ class Game extends Component {
         this.setState({
             winner: player,
             isComplete: true,
+            currentPlayer: player!=='t'?player:'x',
+            nextPlayer: player!=='t'?(player === 'x'?'o':'x'):'o',
             stats
         });
     }
@@ -70,9 +74,20 @@ class Game extends Component {
     setPlayerType(event) {
         console.log(event.target.value);
         this.setState({
-            player:event.target.value,
+            player: event.target.value,
+            currentPlayer: event.target.value,
+            nextPlayer: event.target.value === 'x'?'o':'x',
             stage:"three"
         })
+    }
+
+    setCurrent = ()=> {
+        let nextPlayer = this.state.currentPlayer;
+        let currentPlayer = this.state.nextPlayer;
+        this.setState({
+            currentPlayer,
+            nextPlayer
+        });
     }
 
     render() {
@@ -82,13 +97,18 @@ class Game extends Component {
                 <Col md={6} lg={6} className={'board-container'}>
                 <h3>Tic-Tac-Toe Board</h3>
                 <Board isComplete={this.state.isComplete}
-                    setGameState={(player) => this.setGameState(player)} type={this.state.type} user={this.state.player} />
+                    setGameState={(player) => this.setGameState(player)} type={this.state.type} user={this.state.player} current={this.state.currentPlayer} next={this.state.nextPlayer} swap={this.setCurrent}/>
                 </Col>
                 <Col md={6} lg={6} className={'score-card'}>
                 <h3>Score Card</h3>
                 <Stats info={this.state.stats} />
                 </Col>
                 </Row>}
+                <div className={'turn'}>
+                    <span className={'message'}>
+                        <h3>Next Turn : {this.state.currentPlayer}</h3>
+                    </span>
+                </div>
                 {this.state.isComplete && <div className={'buttonContainer'}><button>Reset</button></div>}
                 {this.state.stage === "one" && <GameType title="How do you want to play today!!!!!" name="type" values={GAME_TYPES} optionChange={(event)=> this.setGameType(event)}/>}
                 {this.state.stage === "two" && <GameType title="Choose your side!!!!!" name="player" values={PLAYER} optionChange={(event)=> this.setPlayerType(event)}/>}

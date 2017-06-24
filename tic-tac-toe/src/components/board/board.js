@@ -11,21 +11,15 @@ export default class Board extends React.Component {
             classes: Array(9).fill('hide'),
             disable: false
         }
-        this.current = props.user;
-        this.next = props.user === 'x'?'o':'x';
     }
 
-    swap = (current,next)=> {
-        this.current = next;
-        this.next = current;
-    }
     updateSquareValue = (index) => {
         if(this.state.board[index]===null && !this.disable){
             let board = this.state.board.slice();
             let classes = this.state.classes.slice();
-            board[index] = this.current;
+            board[index] = this.props.current;
             classes[index] = 'show';
-            this.swap(this.current, this.next);
+            this.props.swap();
             this.setState({
                 board,
                 classes,
@@ -43,11 +37,9 @@ export default class Board extends React.Component {
                             board: Array(9).fill(null),
                             classes:Array(9).fill('hide'),
                     });
-                    this.current = this.props.user
-                    this.next = this.props.user === 'x'?'o':'x'
                 }
-                if(this.props.type==='1' && this.current!==this.props.user){
-                    this.updateSquareValue(findBestMove(this.state.board, this.current==='o'));
+                if(this.props.type==='1' && this.props.current!==this.props.user){
+                    this.updateSquareValue(findBestMove(this.state.board, this.props.current==='o'));
                 }
                 this.setState({
                     disable: false
