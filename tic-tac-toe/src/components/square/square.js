@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import './square.css';
 
 const Square = (props) => (
-    <Button   onClick={props.mark}><span>{props.value}</span></Button>
+    <Button  disabled={props.disable} className={'square '+props.class} onClick={props.mark}><span>{props.value}</span></Button>
 );
 
 

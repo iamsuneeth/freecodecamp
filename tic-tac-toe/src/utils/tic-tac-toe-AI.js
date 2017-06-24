@@ -96,7 +96,8 @@ export const evaluteBoard = (board) => {
             }
         }
     }
-
+     console.log(board);
+    console.log(bestMove, 'player: '+player);
     return bestMove;
 
 }

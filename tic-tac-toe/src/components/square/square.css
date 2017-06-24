@@ -1,4 +1,19 @@
-.square {
-   font-size:4em;
+.square,.square:hover,.square:active,.square:focus,.square:active:hover,.square[disabled],
+.square[disabled]:hover{
    padding:0;
+   background: none;
+   color: #fff;
+   border-radius:0;
+   border: none;
+   outline: 2px solid #fff;
+}
+
+.hide {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.show {
+    opacity: 1;
+    transition: opacity 0.5s;
 }

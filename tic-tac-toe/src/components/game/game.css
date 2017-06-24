@@ -1,5 +1,35 @@
-.game {
+.game-container {
     display: flex;
-    align-content: center;
-    justify-content: center;
+    padding:30px;
+    align-items: center;
+    background: rgb(40,80,60);
+    color: #fff;
+    border: 10px solid rgba(240,180,135,1);
+    border-radius: 5px;
+    font-family: 'Covered By Your Grace', cursive;
+}
+
+.game-container h3 {
+    margin-right:40px;
+    margin-left:40px;
+    border-bottom: 2px solid #fff;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.board-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 2em;
+    align-self: flex-start;
+}
+.score-card {
+    display: flex;
+    flex-direction: column;
+    font-size: 2em;
+    align-self: flex-start;
+}
+
+.score-card label {
+    text-decoration: underline;
 }

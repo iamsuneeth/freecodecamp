@@ -7,10 +7,12 @@ export default class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            board: Array(9).fill(null)
+            board: Array(9).fill(null),
+            classes: Array(9).fill('hide'),
+            disable: false
         }
-        this.current = props.user
-        this.next = props.user === 'x'?'o':'x'
+        this.current = props.user;
+        this.next = props.user === 'x'?'o':'x';
     }
 
     swap = (current,next)=> {
@@ -18,30 +20,46 @@ export default class Board extends React.Component {
         this.next = current;
     }
     updateSquareValue = (index) => {
-        if(this.state.board[index]===null){
-            let board = this.state.board
+        if(this.state.board[index]===null && !this.disable){
+            let board = this.state.board.slice();
+            let classes = this.state.classes.slice();
             board[index] = this.current;
+            classes[index] = 'show';
             this.swap(this.current, this.next);
             this.setState({
-                board
+                board,
+                classes,
+                disable: true
             });
-            let value  = evaluteBoard(this.state.board);
-            if(isComplete(this.state.board) || value !==0){
-                if(value===0){
-                    this.props.setGameState('t');
-                }else{
-                     this.props.setGameState(value>0?'o':'x');
+            setTimeout(()=> {
+                let value  = evaluteBoard(this.state.board);
+                if(isComplete(this.state.board) || value !==0){
+                    if(value===0){
+                        this.props.setGameState('t');
+                    }else{
+                        this.props.setGameState(value>0?'o':'x');
+                    }
+                    this.setState({
+                            board: Array(9).fill(null),
+                            classes:Array(9).fill('hide'),
+                    });
+                    this.current = this.props.user
+                    this.next = this.props.user === 'x'?'o':'x'
                 }
-            }
-            if(this.props.type==='1' && this.current!==this.props.user){
-                this.updateSquareValue(findBestMove(board, this.current==='o'));
-            }
+                if(this.props.type==='1' && this.current!==this.props.user){
+                    this.updateSquareValue(findBestMove(this.state.board, this.current==='o'));
+                }
+                this.setState({
+                    disable: false
+                });
+            },1000);
+            
         }       
     }
 
     renderSquare(pos){
         return (
-            <Square value={this.state.board[pos]} mark={() => this.updateSquareValue(pos)} />
+            <Square disable={this.state.disable} className={this.state.classes[pos]} value={this.state.board[pos]} mark={() => this.updateSquareValue(pos)} />
         )
     }
 
