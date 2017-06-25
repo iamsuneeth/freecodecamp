@@ -1,5 +1,6 @@
 import React from 'react';
 import {PageHeader, Row, Col} from 'react-bootstrap';
+import './header.css';
 const Header = (props) => (
         <Row className={'header'}>
             <Col xs={12} md={12}>

@@ -1,4 +1,47 @@
-
+.modal-container {
+  position: relative;
+}
 .modal-container .modal, .modal-container .modal-backdrop {
-  margin-top:150px;
+ // position: relative;
+}
+
+.modal-container .modal {
+  background: rgba(0, 0, 0, 0.8);
+}
+.modal-container .modal .modal-dialog {
+  margin-top:20%;
+}
+
+.modal-dialog .modal-content {
+  background: none;
+  color: #fff;
+  box-shadow:none;
+  border:none;
+}
+.modal-content .modal-header .modal-title{
+  font-size: 2em;
+}
+
+.modal-content .btn,.modal-content .btn:hover,.modal-content .btn:active,.modal-content .btn:focus,.modal-content .btn:active:hover
+{
+   background: none;
+   color: #fff;
+   border: none;
+   font-size: 3em;
+   box-shadow: none;
+}
+
+.modal-content .btn:hover,.modal-content .btn:active{
+  border-bottom:2px solid green;
+  border-radius: 0;
+}
+
+@media (max-width: 500px) {
+    .modal-content .btn,.modal-content .btn:hover,.modal-content .btn:active,.modal-content .btn:focus,.modal-content .btn:active:hover
+    {
+      font-size: 2em;
+    }
+    .modal-content .modal-header .modal-title{
+      font-size: 2em;
+    }   
 }

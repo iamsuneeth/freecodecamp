@@ -7,13 +7,14 @@
    border: none;
    outline: 2px solid #fff;
 }
-
-.hide {
-    opacity: 0;
-    transition: opacity 0.5s;
+.square span{
+    opacity: 1;
+    transition: opacity 0.5s; 
+}
+.square.hideSquare span{
+    opacity: 0;  
 }
 
-.show {
-    opacity: 1;
-    transition: opacity 0.5s;
+@media (max-width: 500px) {
+    
 }

@@ -38,6 +38,7 @@ class Game extends Component {
             currentPlayer: '',
             nextPlayer: '',
             stage: "one",
+            turnClass:'',
             stats: {
                 games:0,
                 x:0,
@@ -46,6 +47,12 @@ class Game extends Component {
             }
 
         }
+
+        this.classes = {
+            stageOne:'content showContent',
+            stageTwo: 'content'
+        }
+        
     }
 
 
@@ -61,6 +68,7 @@ class Game extends Component {
             nextPlayer: player!=='t'?(player === 'x'?'o':'x'):'o',
             stats
         });
+        
     }
 
     setGameType(event) {
@@ -69,6 +77,10 @@ class Game extends Component {
             type: event.target.value,
             stage: "two"
         })
+        this.classes= {
+            stageOne:'content hideContent',
+            stageTwo:'content showContent'
+        };
     }
 
     setPlayerType(event) {
@@ -78,40 +90,50 @@ class Game extends Component {
             currentPlayer: event.target.value,
             nextPlayer: event.target.value === 'x'?'o':'x',
             stage:"three"
-        })
+        });
+        this.classes= {
+            stageOne:'content hideContent',
+            stageTwo:'content hideContent'
+        };
     }
 
     setCurrent = ()=> {
+        this.setState({
+            turnClass:'hideTurn'
+        });
         let nextPlayer = this.state.currentPlayer;
         let currentPlayer = this.state.nextPlayer;
-        this.setState({
+        setTimeout(()=>{
+            this.setState({
             currentPlayer,
-            nextPlayer
-        });
+            nextPlayer,
+            turnClass:''
+            });
+        },500);
     }
 
     render() {
         return (
             <div className={'game container'}>
-                {this.state.stage === "three" && <Row className={'game-container'}>
-                <Col md={6} lg={6} className={'board-container'}>
+                {this.state.stage === "three" && <div className={'turn '+this.state.turnClass}>
+                    <span className={'message'}>
+                        {this.state.type==='1' && (this.state.currentPlayer===this.state.player?<h3>Your turn!!</h3>:<h3>Computer's turn!!</h3>)}
+                        {this.state.type==='2' && (this.state.currentPlayer===this.state.player?<h3>Player 1's turn!!</h3>:<h3>Player 2's turn!!</h3>)}
+                    </span>
+                </div>}
+                <Row className={'game-container'}>
+                <Col md={6} lg={6} xs={12} className={'board-container'}>
                 <h3>Tic-Tac-Toe Board</h3>
                 <Board isComplete={this.state.isComplete}
                     setGameState={(player) => this.setGameState(player)} type={this.state.type} user={this.state.player} current={this.state.currentPlayer} next={this.state.nextPlayer} swap={this.setCurrent}/>
                 </Col>
-                <Col md={6} lg={6} className={'score-card'}>
+                <Col md={6} lg={6} xs={12} className={'score-card'}>
                 <h3>Score Card</h3>
                 <Stats info={this.state.stats} />
                 </Col>
-                </Row>}
-                <div className={'turn'}>
-                    <span className={'message'}>
-                        <h3>Next Turn : {this.state.currentPlayer}</h3>
-                    </span>
-                </div>
-                {this.state.isComplete && <div className={'buttonContainer'}><button>Reset</button></div>}
-                {this.state.stage === "one" && <GameType title="How do you want to play today!!!!!" name="type" values={GAME_TYPES} optionChange={(event)=> this.setGameType(event)}/>}
-                {this.state.stage === "two" && <GameType title="Choose your side!!!!!" name="player" values={PLAYER} optionChange={(event)=> this.setPlayerType(event)}/>}
+                </Row>
+                <GameType title="How do you want to play today!!!!!" name="type" classes={this.classes.stageOne} values={GAME_TYPES} optionChange={(event)=> this.setGameType(event)}/>
+                <GameType title="Choose your side!!!!!" name="player" classes={this.classes.stageTwo} values={PLAYER} optionChange={(event)=> this.setPlayerType(event)}/>
                 
             </div>
         )

@@ -3,8 +3,8 @@ import {Modal, Button, ButtonGroup} from 'react-bootstrap';
 import './gameType.css';
 
 const GameType = (props) => (
-    <div className={'modal-container'}>
-    <Modal.Dialog>
+    <div className={'modal-container '}>
+    <Modal.Dialog className={props.classes}>
       <Modal.Header>
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>

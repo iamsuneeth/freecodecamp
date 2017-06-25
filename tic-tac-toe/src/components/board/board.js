@@ -8,7 +8,7 @@ export default class Board extends React.Component {
         super(props);
         this.state = {
             board: Array(9).fill(null),
-            classes: Array(9).fill('hide'),
+            classes: Array(9).fill(''),
             disable: false
         }
     }
@@ -18,14 +18,18 @@ export default class Board extends React.Component {
             let board = this.state.board.slice();
             let classes = this.state.classes.slice();
             board[index] = this.props.current;
-            classes[index] = 'show';
-            this.props.swap();
+            classes[index] = 'hideSquare';
+            this.props.swap(); 
             this.setState({
-                board,
                 classes,
                 disable: true
-            });
+            })
             setTimeout(()=> {
+                classes[index] = '';
+                this.setState({
+                    board,
+                    classes
+                });
                 let value  = evaluteBoard(this.state.board);
                 if(isComplete(this.state.board) || value !==0){
                     if(value===0){
@@ -35,7 +39,7 @@ export default class Board extends React.Component {
                     }
                     this.setState({
                             board: Array(9).fill(null),
-                            classes:Array(9).fill('hide'),
+                            classes:Array(9).fill(''),
                     });
                 }
                 if(this.props.type==='1' && this.props.current!==this.props.user){
