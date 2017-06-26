@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Board from '../board/board';
 import GameType from '../models/gameType';
 import Stats from '../status/stats';
-import {Row, Col} from 'react-bootstrap';
+import Message from '../common/messageBox';
+import {Row, Col, Button} from 'react-bootstrap';
 import './game.css';
 
 const GAME_TYPES = {
@@ -44,13 +45,18 @@ class Game extends Component {
                 x:0,
                 o:0,
                 t:0
+            },
+            message: {
+                text: '',
+                class:'content'
             }
 
         }
 
         this.classes = {
             stageOne:'content showContent',
-            stageTwo: 'content'
+            stageTwo: 'content',
+            stageThree: 'content'
         }
         
     }
@@ -79,7 +85,8 @@ class Game extends Component {
         })
         this.classes= {
             stageOne:'content hideContent',
-            stageTwo:'content showContent'
+            stageTwo:'content showContent',
+            stageThree: 'content'
         };
     }
 
@@ -89,11 +96,13 @@ class Game extends Component {
             player: event.target.value,
             currentPlayer: event.target.value,
             nextPlayer: event.target.value === 'x'?'o':'x',
-            stage:"three"
+            stage:"three",
+            boardLoaded:true
         });
         this.classes= {
             stageOne:'content hideContent',
-            stageTwo:'content hideContent'
+            stageTwo:'content hideContent',
+            stageThree:'content showContent'
         };
     }
 
@@ -109,32 +118,99 @@ class Game extends Component {
             nextPlayer,
             turnClass:''
             });
-        },500);
+        },(this.state.type==='1' && this.state.currentPlayer!==this.state.player)?500:250);
+    }
+
+    showMessages = () => {
+        if(this.state.winner === this.state.player){
+            this.setState({
+                message:{
+                    text : 'Great!!!! You Won...',
+                    class: 'showContent'
+                }
+            });
+        }else if(this.state.winner === 't'){
+            this.setState({
+                message:{
+                    text: 'Mmmm!!!! It was a draw...',
+                    class: 'showContent'
+                }
+            });
+        }else{
+            this.setState({
+                message:{
+                    text: 'Uh Oh!!! Better luck next time....',
+                    class: 'showContent'
+                }
+            });
+        }
+    }
+
+    hideMessages = () => {
+        this.setState({
+                message:{
+                    text: '',
+                    class: ''
+                }
+            });
+    }
+
+    reset = () => {
+        this.setState({
+            isComplete: false,
+            winner: 'none',
+            type: "1",
+            player: 'x',
+            currentPlayer: '',
+            nextPlayer: '',
+            stage: "one",
+            turnClass:'',
+            stats: {
+                games:0,
+                x:0,
+                o:0,
+                t:0
+            },
+            message: {
+                text: '',
+                class:'content'
+            } 
+        });
+        this.classes = {
+            stageOne:'content showContent',
+            stageTwo: 'content',
+            stageThree: 'content'
+        }
     }
 
     render() {
         return (
             <div className={'game container'}>
-                {this.state.stage === "three" && <div className={'turn '+this.state.turnClass}>
-                    <span className={'message'}>
+                {this.state.stage === "three" && <div className={'topbar'}>
+                    <span className={'reset'}>
+                        <Button onClick={this.reset}>{'Reset Game'}</Button>
+                    </span>
+                    <span className={'turn '+this.state.turnClass}>
                         {this.state.type==='1' && (this.state.currentPlayer===this.state.player?<h3>Your turn!!</h3>:<h3>Computer's turn!!</h3>)}
                         {this.state.type==='2' && (this.state.currentPlayer===this.state.player?<h3>Player 1's turn!!</h3>:<h3>Player 2's turn!!</h3>)}
                     </span>
                 </div>}
                 <Row className={'game-container'}>
-                <Col md={6} lg={6} xs={12} className={'board-container'}>
+                <Col md={6} lg={6} xs={12} className={'board-container '+this.classes.stageThree}>
                 <h3>Tic-Tac-Toe Board</h3>
                 <Board isComplete={this.state.isComplete}
+                    showMessages={this.showMessages}
+                    hideMessages={this.hideMessages}
                     setGameState={(player) => this.setGameState(player)} type={this.state.type} user={this.state.player} current={this.state.currentPlayer} next={this.state.nextPlayer} swap={this.setCurrent}/>
                 </Col>
-                <Col md={6} lg={6} xs={12} className={'score-card'}>
+                <Col md={6} lg={6} xs={12} className={'score-card '+this.classes.stageThree}>
                 <h3>Score Card</h3>
                 <Stats info={this.state.stats} />
                 </Col>
                 </Row>
                 <GameType title="How do you want to play today!!!!!" name="type" classes={this.classes.stageOne} values={GAME_TYPES} optionChange={(event)=> this.setGameType(event)}/>
                 <GameType title="Choose your side!!!!!" name="player" classes={this.classes.stageTwo} values={PLAYER} optionChange={(event)=> this.setPlayerType(event)}/>
-                
+                <Message className={this.state.message.class} message={this.state.message.text}/>
             </div>
         )
     }

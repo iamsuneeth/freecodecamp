@@ -1,0 +1,9 @@
+.message .modal-body {
+    font-size:2em;
+}
+
+@media (max-width: 500px) {
+    .message .modal-body {
+        font-size:1em;
+    }
+}
