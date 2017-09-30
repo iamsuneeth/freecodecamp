@@ -1,0 +1,22 @@
+.switch-container {
+    border:2px solid #333;
+    position: relative;
+    margin: 5px auto;
+    background-color: #555;
+    
+}
+
+.switch-container .switch {
+    background-color: red;
+    border: 1px solid darkred;
+    border-radius: 1px;
+    padding: 10px;
+    width:50%;
+    position: relative;
+    left:0;
+    transition: left .2s;
+}
+
+.switch-container .switch.on {
+    left:50%;
+}

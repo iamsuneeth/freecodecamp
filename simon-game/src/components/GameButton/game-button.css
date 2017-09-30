@@ -1,0 +1,34 @@
+.game .btn {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    margin: 0;
+}
+
+.game .gamerow {
+    display: flex;
+}
+
+.btn-green {
+    border:10px solid #333;
+    border-top-left-radius: 100%;
+    background-color: #004D40;
+}
+
+.btn-red {
+    border:10px solid #333;
+    border-top-right-radius: 100%;
+    background-color: #B71C1C;
+}
+
+.btn-yellow {
+    border:10px solid #333;
+    border-bottom-left-radius: 100%;
+    background-color: #FFD600;
+}
+
+.btn-blue {
+    border:10px solid #333;
+    border-bottom-right-radius: 100%;
+    background-color: #01579B;
+}
