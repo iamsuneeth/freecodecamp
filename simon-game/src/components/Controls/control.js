@@ -8,7 +8,8 @@ import {
     strictToggle,
     start,
     setSequence,
-    setPlayStatus
+    setPlayStatus,
+    toggleKeys
 } from '../../actions';
 import './control.css';
 
@@ -51,9 +52,11 @@ class ControlContainer extends React.Component{
         }else{
             console.log("error");
             //play error tone
+            if(this.props.active){
             setTimeout(function() {
                 this.startPlaying(this.props.currentSequence); 
             }.bind(this), 1000);
+            }
         }
     }
 
@@ -79,10 +82,14 @@ class ControlContainer extends React.Component{
             if(i<sequence.length){
                 this.playAndGlow(sequence,i);
             }else{
-                this.errorCheck();
+                this.props.setPlayStatus(false);
+                this.props.toggleKeys(true);
+                setTimeout(function(){
+                    this.errorCheck();
+                }.bind(this),sequence.length*5000);
             }
             console.log("ended sequence "+sequence[i-1]);
-        }.bind(this),sequence.length*1000,++i);
+        }.bind(this),sequence.length*5000,++i);
     
         
     }
@@ -121,7 +128,8 @@ const mapDispatchToProps = dispatch => ({
     strictToggle:() => dispatch(strictToggle()),
     start:() => dispatch(start()),
     setSequence:(seq) => dispatch(setSequence(seq)),
-    setPlayStatus:(status) => dispatch(setPlayStatus(status))
+    setPlayStatus:(status) => dispatch(setPlayStatus(status)),
+    toggleKeys:() => dispatch(toggleKeys())
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(ControlContainer);

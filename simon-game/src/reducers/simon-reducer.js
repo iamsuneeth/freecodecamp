@@ -4,7 +4,9 @@ import {
     NEXT_STEP,
     START,
     SET_SEQUENCE,
-    SET_PLAY
+    SET_PLAY,
+    TOGGLE_KEYS,
+    ADD_SEQ
 } from '../actions';
 
 const initialState = {
@@ -14,7 +16,8 @@ const initialState = {
     step:0,
     playing:false,
     currentSequence:[],
-    userSequence:[]
+    userSequence:[],
+    keysActive:false
 }
 
 export default (state=initialState, action) => {
@@ -34,6 +37,10 @@ export default (state=initialState, action) => {
             return {...state, currentSequence:action.payload};
         case SET_PLAY:
             return {...state, playing:action.payload}
+        case TOGGLE_KEYS:
+            return {...state, keysActive:true}
+        case ADD_SEQ:
+            return {...state, userSequence:state.userSequence.push(action.id)}
         default:
             return state;
     }

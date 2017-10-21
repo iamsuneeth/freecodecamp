@@ -6,3 +6,71 @@
     padding: 10px;
     position: relative;
 }
+
+.game .middle {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width: 200px;
+    height: 200px;
+    border:10px solid #333;
+    border-radius: 100%;
+    background-color: #ece7ee;
+    font-size:60%;
+}
+
+.middle h2 {
+    margin:20px 0 5px 0;
+}
+
+.middle .control {
+    margin:5px 20px;
+    border-radius: 5px;
+}
+
+.control .row:first-child .col {
+    padding-left: 0;
+    padding-right: 0;
+
+}
+
+.display {
+    background:darkred;
+    border:2px solid #333;
+    color:#B10000;
+    border-radius: 3px;
+    width:40%;
+    margin: 5px auto;
+}
+
+.count .label{
+    margin: auto;
+}
+
+.count .active {
+    color: red;
+}
+
+.switch-container {
+    border:2px solid #333;
+    position: relative;
+    margin: 5px auto;
+    background-color: #555;
+    
+}
+
+.switch-container .switch {
+    background-color: red;
+    border: 1px solid darkred;
+    border-radius: 1px;
+    padding: 10px;
+    width:50%;
+    position: relative;
+    left:0;
+    transition: left .2s;
+}
+
+.switch-container .switch.on {
+    left:50%;
+}
