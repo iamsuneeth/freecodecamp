@@ -2,16 +2,6 @@ import React from 'react';
 import propTypes from 'prop-types';
 import GameButton from '../GameButton/gamebutton';
 import Button from '../basics/button/button';
-import {connect} from 'react-redux';
-import {
-    powerToggle,
-    strictToggle,
-    start,
-    addSequence,
-    setSequence,
-    setPlayStatus,
-    toggleKeys
-} from '../../actions';
 import './game.css';
 
 const toneMap = {
@@ -42,7 +32,9 @@ class Game extends React.Component{
             keysActive:false,
             clickable:false,
             validated:"successNew",
-            glow:""
+            glow:"",
+            error:false,
+            success:false
         }
     }
 
@@ -77,48 +69,42 @@ class Game extends React.Component{
         let interval = setInterval(function(){
 
             if(!self.state.power){
-                clearInterval(self.state.intervalId)
+                clearInterval(self.state.intervalId);
                 self.setState({
-                    playing:true,
+                    playing:false,
                     currentSequence:[],
                     active:false,
                     userSequence:[],
-                    validated:true
-                })
+                    validated:true,
+                    step:0
+                });
                 return;
             }
-            console.log(self.state.playing);
+
+            if(self.state.step+1===20){
+                clearInterval(self.state.intervalId);
+                self.setState({
+                    playing:false,
+                    currentSequence:[],
+                    active:false,
+                    userSequence:[],
+                    validated:true,
+                    error:false,
+                    success:true,
+                    step:0
+
+                });
+                return;
+            }
             if(!self.state.playing){
                 
                 if(self.state.validated==="successNew"){
                     sequence=self.state.currentSequence;
-                    for(let i=0;i<self.state.step+1;i++)
-                        sequence.push(Math.floor(Math.random()*(4-1+1)+1));
+                    sequence.push(Math.floor(Math.random()*(4-1+1)+1));
                 }
                 self.setState({
                     playing:true
                 });
-               /*  sequence.map(function(element,index){
-                    if(index+1 === sequence.length){
-                        setTimeout(function() {
-                            self.pressButton(false,element);
-                            setTimeout(function(){
-                                self.setState({
-                                    validated:"fail"
-                                });
-                            },sequence.length*2000);
-                            self.setState({
-                                clickable:true
-                            });
-                        }, index*1000);
-                    }else{
-                        self.pressButton(false,element)
-                        
-                        
-                    }
-    
-                    return true;
-                },this); */
 
                 var audio = new Audio();
                 self.pressButton(false,sequence[0],audio);
@@ -126,7 +112,10 @@ class Game extends React.Component{
                 audio.onended = function(){
                     i++;
                     if(i< sequence.length){
-                        self.pressButton(false,sequence[i],audio);
+                        setTimeout(function(){
+                            self.pressButton(false,sequence[i],audio);
+                        },1000);
+                        
                     }else{
                         
                         self.setState({
@@ -146,7 +135,6 @@ class Game extends React.Component{
                     clickable:false
                 });
                 if(self.state.currentSequence.length===self.state.userSequence.length){
-                    console.log("validate");
                     let result=true;
                     for(let j=0;j<self.state.currentSequence.length;j++){
                         if(self.state.currentSequence[j]!==self.state.userSequence[j]){
@@ -159,26 +147,54 @@ class Game extends React.Component{
                             playing:false,
                             validated:"successNew",
                             step:self.state.step+=1,
-                            userSequence:[],
-                            currentSequence:[]
+                            userSequence:[]
                         })
                     }else{
-                        console.log("Invalid Input");
                         self.setState({
-                            validated:"fail",
-                            playing:true,
-                            userSequence:[]
+                            validated:self.state.strict?"successNew":"fail",
+                            playing:false,
+                            userSequence:[],
+                            currentSequence:self.state.strict?[]:self.state.currentSequence,
+                            error:true,
                         });
+
+                        let interval = setInterval(function(){
+                            self.setState({
+                                error:!self.state.error
+                            })
+                        },300);
+    
+                        setTimeout(function() {
+                            clearInterval(interval);
+                            self.setState({
+                                error:false
+                            })
+                        }, 1000);
                     }
                     
-                    //clearInterval(self.state.intervalId);                     
+       
                 }else{
-                    console.log("No/Invalid Input");
+                    
                     self.setState({
-                        validated:"success",
+                        validated:self.state.strict?"successNew":"success",
                         playing:false,
-                        userSequence:[]
+                        userSequence:[],
+                        currentSequence:self.state.strict?[]:self.state.currentSequence,
+                        error:true
                     });
+
+                    let interval = setInterval(function(){
+                        self.setState({
+                            error:!self.state.error
+                        })
+                    },300);
+
+                    setTimeout(function() {
+                        clearInterval(interval);
+                        self.setState({
+                            error:false
+                        })
+                    }, 905);
                    
                 }
             }
@@ -222,19 +238,21 @@ class Game extends React.Component{
             </div>
                 <div className="row">
                     <div className="col">
-                        <Button label='Start' onClick={this.state.power?this.startSequencePlay.bind(this):void(0)}/>
+                        <Button label='START' color={'yellow'} onClick={this.state.power?this.startSequencePlay.bind(this):void(0)}/>
                     </div>
                     <div className="col">
-                        <Button label='Strict' onClick={() => this.setState({
+                        <Button label='STRICT' color={'red'} indicator={true} strict={this.state.strict} onClick={() => this.state.power?this.setState({
                             strict:!this.state.strict
-                        })}/>
+                        }):void(0)}/>
                     </div>
                 </div>
             </div>
             <div className="count">
                 <div className="row display">
                     <div className="col">
-                        <div className={this.state.active?" active":""}>{(this.state.power && this.state.step+1>0)?(this.state.active)?this.state.step+1:0:'--'}</div>
+                        {!this.state.error && <div className={this.state.active?" active":""}>{(this.state.power && this.state.step+1>0)?(this.state.active)?this.state.step+1:0:'--'}</div>}
+                        {this.state.error && <div className={"active"}>ERROR!!</div>}
+                        {this.state.success && <div className={"active"}>WINNER!!</div>}
                     </div>
                 </div>
                 <div className='row'>
@@ -248,26 +266,5 @@ class Game extends React.Component{
 }
 
 
+export default Game;
 
-const mapStateToProps = state => ({
-    power:state.power,
-    active:state.active,
-    strict:state.strict,
-    step:state.step,
-    currentSequence:state.currentSequence,
-    userSequence:state.userSequence,
-    sequenceLoaded:state.sequenceLoaded,
-    playing:state.playing
-});
-
-const mapDispatchToProps = dispatch => ({
-    powerToggle:() => dispatch(powerToggle()),
-    strictToggle:() => dispatch(strictToggle()),
-    addSequence: id => dispatch(addSequence(id)),
-    start:() => dispatch(start()),
-    setSequence:(seq) => dispatch(setSequence(seq)),
-    setPlayStatus:(status) => dispatch(setPlayStatus(status)),
-    toggleKeys:() => dispatch(toggleKeys())
-})
-
-export default connect(mapStateToProps,mapDispatchToProps)(Game);

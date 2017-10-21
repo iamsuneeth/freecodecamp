@@ -7,6 +7,7 @@
     position: relative;
 }
 
+
 .game .middle {
     position: absolute;
     top:50%;
@@ -61,10 +62,10 @@
 }
 
 .switch-container .switch {
-    background-color: red;
-    border: 1px solid darkred;
+    background-color: rgb(65, 156, 241);
+    border: 1px solid rgb(17, 21, 243);
     border-radius: 1px;
-    padding: 10px;
+    padding: 5px;
     width:50%;
     position: relative;
     left:0;
@@ -73,4 +74,36 @@
 
 .switch-container .switch.on {
     left:50%;
+}
+
+@media only screen and (max-width: 500px) {
+    
+     .game {
+       width: 280px;
+       height: 280px;
+       padding: 8px;
+       margin: 8px auto;
+     }
+
+     .game .middle {
+        width: 140px;
+        height: 140px;
+        border:8px solid #333;  
+     }
+
+     .middle h2 {
+        margin:10px 0 5px 0;
+    }
+    
+    .middle .control {
+        margin:5px 10px;
+    }
+   
+    .display {
+        margin: 1.5px auto;
+    }
+
+    .switch-container {
+        margin: 2px auto;
+    }
 }

@@ -49,3 +49,14 @@
 .btn-4.glow{
     background-color: rgb(33, 156, 250);
 }
+
+@media only screen and (max-width: 500px) {
+    .game .btn {
+        width: 132px;
+        height: 132px;
+    }
+    
+    .btn{
+        border:5px solid #333;
+    }
+}

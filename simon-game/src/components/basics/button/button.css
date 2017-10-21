@@ -1,15 +1,59 @@
 .round-btn {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     background-color: yellow;
     border-radius: 100%;
-    margin:5px auto;
-    border: 3px solid #444;
-    box-shadow: 0px 5px 5px #444;
+    margin:3px auto;
+    border: 2px solid #444;
+    box-shadow: 0px 2px 2px #444;
     position: relative;
 }
 
 .round-btn:active {
-    box-shadow: 0px 3px 5px #444;
+    box-shadow: 0px 3px 3px #444;
     top:1px;
 }
+
+.strictindicator span{
+    width: 5px;
+    height: 5px;
+    background-color: black;
+    border-radius: 100%;
+    border: 1px solid #444;
+    position: absolute;
+    display: block;
+    left:0px;
+    top:10px;
+}
+
+.strictindicator{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.strictindicator span.active{
+    background-color: red;
+}
+
+
+@media only screen and (max-width: 500px) {
+    .round-btn {
+        width: 15px;
+        height: 15px;
+        margin:3px auto;
+        border: 2px solid #444;
+        box-shadow: 0px 2px 2px #444;
+    }
+    
+    .round-btn:active {
+        box-shadow: 0px 3px 3px #444;
+    }
+
+    .strictindicator span{
+        width: 3px;
+        height: 3px;
+        left:-2px
+    }
+  }
+
