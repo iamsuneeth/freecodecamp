@@ -1,0 +1,17 @@
+.stat-section {
+    display: flex;
+    flex-direction: column;
+    flex:1;
+}
+
+.stat-section-row {
+    display: flex;
+    margin:20px 0;
+}
+
+@media (max-width: 500px) {
+    .stat-section-row {
+    display: flex;
+    margin:5px 0;
+    }
+}

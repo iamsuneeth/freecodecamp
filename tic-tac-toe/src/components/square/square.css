@@ -1,4 +1,23 @@
-.square {
-   font-size:4em;
+.square,.square:hover,.square:active,.square:focus,.square:active:hover,.square[disabled],
+.square[disabled]:hover{
    padding:0;
+   background: none;
+   color: #fff;
+   border-radius:0;
+   border: none;
+   outline: 2px solid #fff;
+}
+.square span{
+    opacity: 1;
+    transition: opacity 0.5s; 
+}
+.square.hideSquare span{
+    opacity: 0;  
+}
+
+.square.highlight {
+    background:rgb(80,80,60);
+}
+@media (max-width: 500px) {
+
 }

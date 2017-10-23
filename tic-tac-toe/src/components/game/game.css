@@ -1,5 +1,119 @@
-.game {
+.game{
+    position: relative;
+    margin-bottom: 40px; 
+}
+.game-container {
     display: flex;
-    align-content: center;
+    padding:30px;
+    align-items: center;
+    background: rgb(40,80,60);
+    color: #fff;
+    border: 10px solid rgba(240,180,135,1);
+    border-radius: 5px;
+    font-family: 'Covered By Your Grace', cursive;
+    min-height: 400px;
+}
+
+.game-container h3 {
+    margin-right:40px;
+    margin-left:40px;
+    border-bottom: 2px solid #fff;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.board-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 2em;
+    align-self: flex-start;
+}
+.score-card {
+    display: flex;
+    flex-direction: column;
+    font-size: 2em;
+    align-self: flex-start;
+}
+
+.score-card label {
+    text-decoration: underline;
+}
+.topbar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.turn{
+    position:relative;
+    background:#4CAF50;
+    color:white;
+    top:0px;
+    transition: top 1s ease;
+    z-index: -1;
+    height: 40px;
+    width: 400px;
+    right: 0;
+    padding-top: 1px;
+    display: flex;
     justify-content: center;
+}
+.turn.hideTurn{
+     top:40px;
+}
+.turn h3{
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+.reset {
+    display: flex;
+    align-self: flex-end;
+    background: rgba(240,180,135,1);
+    height: 40px;
+    width:200px;
+}
+
+.reset .btn {
+    background: none;
+    border:none;
+    width: 100%;
+    box-shadow: none;
+}
+
+
+.content {
+    opacity:0;
+    z-index:-1;
+    transition:opacity 2s ease;
+}
+
+.showContent {
+    opacity:1;
+    z-index:1;
+}
+.hideContent {
+    opacity:0;
+    z-index:-1;
+}
+
+@media (max-width: 500px) {
+    .game-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .turn{
+        height: 20px;
+        width: 120px;
+    }
+    .turn h3{
+        font-size:12px;
+    }
+
+    .game-container h3 {
+        font-size: .8em;
+        margin-left:5px;
+        margin-right: 5px;
+    }
+    .score-card label {
+        font-size: .6em;
+    }
 }

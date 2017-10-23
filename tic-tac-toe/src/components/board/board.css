@@ -3,6 +3,8 @@
     width: 300px;
     display: flex;
     flex-direction: column;
+    margin:20px 0;
+    align-self: center;
 }
 
 .board .row{
@@ -13,7 +15,18 @@
 .board .row button{
     display:flex;
     flex:1;
-    font-size:4em;
+    font-size:2em;
     justify-content:center;
 }
 
+
+@media (max-width: 500px) {
+    .board {
+    height:150px;
+    width: 150px;
+    }   
+
+    .board .row button{
+        font-size:1em;
+    }
+}

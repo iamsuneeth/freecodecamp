@@ -11,10 +11,10 @@ const initializePlayerList = (player) => {
 
 const miniMax = (board, depth, isMax) => {
     let result = evaluteBoard(board);
-    if (result === 10)
-        return result;
-    if (result === -10)
-        return result;
+    if (result.value === 10)
+        return result.value;
+    if (result.value === -10)
+        return result.value;
     if (isComplete(board)){
         return 0;
     }
@@ -54,29 +54,49 @@ const miniMax = (board, depth, isMax) => {
     }
     return true;
 }
-export const evaluteBoard = (board) => {
+const evaluteBoard = (board) => {
     for (let i = 0; i < 9; i += 3) {
         if (board[i] !== null && board[i] === board[i + 1] && board[i] === board[i + 2]) {
-            return board[i] === playerList.player ? 10 : -10;
+            return {
+                value : board[i] === playerList.player ? 10 : -10,
+                indices: [i,i+1,i+2]
+            };
         }
     }
     for (let i = 0; i < 3; i += 1) {
         if (board[i] !== null && board[i] === board[i + 3] && board[i] === board[i + 6]) {
-            return board[i] === playerList.player ? 10 : -10;
+            return {
+                value : board[i] === playerList.player ? 10 : -10,
+                indices: [i,i+3,i+6]
+            };
         }
     }
     if (board[0] !== null
         && board[0] === board[4]
         && board[0] === board[8]) {
-        return board[0] === playerList.player ? 10 : -10;
+        return {
+                value : board[0] === playerList.player ? 10 : -10,
+                indices: [0,4,8]
+        };
     }
     if (board[2] !== null
         && board[2] === board[4]
         && board[2] === board[6]) {
-        return board[2] === playerList.player ? 10 : -10;
+        return {
+                value : board[2] === playerList.player ? 10 : -10,
+                indices: [2,4,6]
+        };
     }
 
-    return 0;
+    return {
+                value : 0,
+                indices: []
+        };
+}
+
+export const evaluateBoard = (board, player) => {
+    initializePlayerList(player);
+    return evaluteBoard(board);
 }
 
  export const findBestMove = (board, player) => {
@@ -96,7 +116,8 @@ export const evaluteBoard = (board) => {
             }
         }
     }
-
+     console.log(board);
+    console.log(bestMove, 'player: '+player);
     return bestMove;
 
 }
