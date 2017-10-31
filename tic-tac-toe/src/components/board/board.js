@@ -35,7 +35,7 @@ export default class Board extends React.Component {
                     if(value.value===0){
                         this.props.setGameState('t');
                     }else{
-                        this.props.setGameState(value.value>0?this.props.player:(this.props.player)==='x'?'o':'x');
+                        this.props.setGameState(value.value>0?this.props.next:(this.props.next)==='x'?'o':'x');
                         for(let i=0;i<3;i++){
                             classes[value.indices[i]] = 'highlight';
                         }
@@ -48,6 +48,7 @@ export default class Board extends React.Component {
                         this.setState({
                             board: Array(9).fill(null),
                             classes:Array(9).fill(''),
+                            disable:false
                         });
                          this.props.hideMessages();
                          if(this.props.type==='1' && this.props.current!==this.props.user){
